@@ -7,7 +7,7 @@ import numpy as np
 
 class Ellipse():
 	def __init__(self, theta = 0,  a = 1, b = 1, origin = (0,0)):
-		# Default case is a circle
+		# Default case is a circle centered at the origin
 		if a <= 0 or b <=0:
 			print "I don't know how to do singularities"
 			raise TypeError("a and b must > 0")
@@ -15,7 +15,7 @@ class Ellipse():
 		self.b = b
 		self.theta = theta
 		self.x = origin[0]
-		self.x = origin[1]
+		self.y = origin[1]
 
 	def set_a(self, value):
 		if value > 0:
@@ -38,8 +38,12 @@ class Ellipse():
 		return np.pi*self.a*self.b
 	
 	def parametric(self):
-		x = lambda t: self.a * np.cos(t)
-		y = lambda t: self.b * np.sin(t)
+		cos_theta = np.cos(self.theta)
+		sin_theta = np.sin(self.theta)
+		a = self.a
+		b = self.b
+		x = lambda t: (a*np.cos(t)*cos_theta - b*np.sin(t)*sin_theta)+self.x
+		y = lambda t: (a*np.cos(t)*sin_theta - b*np.sin(t)*cos_theta)+self.y
 		return (x,y)
 
 class Circle(Ellipse):
